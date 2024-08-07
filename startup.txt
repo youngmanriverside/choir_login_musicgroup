@@ -1,0 +1,9 @@
+# Startup script for choirs-singin
+# 合唱團簽到系統
+
+
+# 運行 login.py 功能
+#python login.py
+
+# 使用 Gunicorn 啟動應用程序
+gunicorn --bind=0.0.0.0 --timeout 600 app:app
