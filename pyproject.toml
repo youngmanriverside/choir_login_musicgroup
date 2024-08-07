@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "choir-login"
+version = "0.1.0"
+description = ""
+authors = ["仁 <manuspurs04@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.2"
+gradio = "^4.38.1"
+flask = "^3.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
