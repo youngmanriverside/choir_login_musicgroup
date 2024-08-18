@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 from datetime import datetime
+#from flask_cors import CORS
+
 
 app = Flask(__name__)
+#CORS(app)  # 這行允許所有來源的跨域請求
 
 # 初始化DataFrames
 attendance_df = pd.DataFrame(columns=["暱稱", "簽到時間"])
@@ -73,5 +76,24 @@ def request_leave():
         'leaves': records
     })
 
+@app.route('/query_records', methods=['POST'])
+def query_records():
+    data = request.json
+    nickname = data.get('nickname', '')
+    if not nickname:
+        return jsonify({'error': '暱稱不能为空'}), 400
+
+    # 查詢該用戶的所有記錄
+    attendance = attendance_df[attendance_df['暱稱'] == nickname].to_dict(orient='records')
+    reservations = reservation_df[reservation_df['暱稱'] == nickname].to_dict(orient='records')
+    leaves = leave_df[leave_df['暱稱'] == nickname].to_dict(orient='records')
+
+    return jsonify({
+        'attendance': attendance,
+        'reservations': reservations,
+        'leaves': leaves
+    })
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) # share=True 生成共享連結
